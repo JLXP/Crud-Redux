@@ -11,6 +11,17 @@ const initialState = {
 //siempre hay retornar un state en el default
 export const productsReducer = (state = initialState, action)=>{
     switch(action.type){
+        case types.NEW_PRODUCT:
+            return {
+                ...state,
+                loading:true,
+            }
+        case types.NEW_PRODUCT_SUCESS:
+            return{
+                ...state,
+                loading:false,
+                products:[...state,action.payload]
+            }
         default: 
             return state;
     }

@@ -14,13 +14,15 @@ export const productsReducer = (state = initialState, action)=>{
         case types.NEW_PRODUCT:
             return {
                 ...state,
-                loading:true,
+                loading:action.payload,
+                
             }
         case types.NEW_PRODUCT_SUCESS:
             return{
                 ...state,
                 loading:false,
-                products:[...state,action.payload]
+                products:[...state.products,action.payload]
+
             }
         default: 
             return state;

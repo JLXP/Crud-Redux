@@ -1,11 +1,13 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useForm} from '../hooks/useForm';
+import { useNavigate } from 'react-router-dom';
 
 //Actions de Redux
 import { createNewProductAction } from '../actions/productActions';
 
 export const NewProduct = () => {
+    let navigate = useNavigate();
 
     const dispatch = useDispatch();
 
@@ -13,6 +15,10 @@ export const NewProduct = () => {
         name: '',
         price: Number(0)
     });
+
+    //Acceder al state del store del
+    const loading = useSelector(state => state.products.loading);
+    const error = useSelector(state => state.products.error);
 
     const { name, price } = formProductValues;
 
@@ -31,6 +37,9 @@ export const NewProduct = () => {
         //crear el nuevo producto
         //Manda a llamar el accion del producto
         dispatch(createNewProductAction(formProductValues));
+
+        //Redireccionar
+        navigate("/");
     }
 
   return (
@@ -75,6 +84,9 @@ export const NewProduct = () => {
                             Add
                         </button>
                     </form>
+
+                    {loading?<p>Loading...</p>:null}
+                    {error?<p className="alert alert-danger p2 mt-4 text-center">Hubo un error</p>:null}
                 </div>
             </div>
         </div>

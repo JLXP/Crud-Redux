@@ -5,12 +5,16 @@ import { types } from '../types/index';
 const initialState = {
     products:[],
     error:null,
-    loading:false
+    loading:false,
+    productDelete: null,
+    productEdit:null
 }
 
 //siempre hay retornar un state en el default
 export const productsReducer = (state = initialState, action)=>{
     switch(action.type){
+        //Este es un tipo de if
+        case types.START_DOWNLOAD_PRODUCTS:
         case types.NEW_PRODUCT:
             return {
                 ...state,
@@ -22,7 +26,38 @@ export const productsReducer = (state = initialState, action)=>{
                 ...state,
                 loading:false,
                 products:[...state.products,action.payload]
-
+            }
+        case types.DOWNLOAD_PRODUCTS_ERROR:
+        case types.NEW_PRODUCT_ERROR:
+        case types.PRODUCT_DELETE_ERROR:
+            return {
+                ...state,
+                loading:false,
+                error: action.payload
+            }
+        case types.DOWNLOAD_PRODUCTS_SUCESS:
+            return{
+                ...state,
+                loading: false,
+                error:null,
+                products:action.payload
+            }
+        case types.GET_PRODUCT_DELETE:
+            return{
+                ...state,
+                productDelete:action.payload
+            }
+        case types.PRODUCT_DELETE_SUCESS:
+            return{
+                ...state,
+                products: state.products.filter(product => product.id !== state.productDelete),
+                productDelete:null
+            }
+        case types.GET_PRODUCT_EDIT:
+            console.log(action);
+            return {
+                ...state, 
+                productEdit:action.payload
             }
         default: 
             return state;

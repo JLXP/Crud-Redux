@@ -48,7 +48,7 @@ export const Product = ({product}) => {
     }
 
   return (
-    <tr>
+    <tr key={product.id}>
         <td>{name}</td>
         <td><span className="font-weight-bold">${price}</span></td>
         <td className="actions">

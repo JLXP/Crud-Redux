@@ -160,14 +160,25 @@ export const editProductAction = (product) => {
         try{
 
             await clientAxios.put(`/products/${product.id}`,product);
+            dispatch(editproductSucess(product));
 
         }catch(error){
-
+            dispatch(editProductError());
         }
     }
 }
 
-const editProduct = (product) => ({
+const editProduct = () => ({
     type: types.START_EDIT_PRODUCT,
+    
+})
+
+const editproductSucess = (product) => ({
+    type: types.PRODUCT_EDIT_SUCESS,
     payload: product
+})
+
+const editProductError = () => ({
+    type: types.PRODUCT_EDIT_ERROR,
+    
 })

@@ -27,6 +27,7 @@ export const productsReducer = (state = initialState, action)=>{
                 loading:false,
                 products:[...state.products,action.payload]
             }
+        case types.PRODUCT_EDIT_ERROR:
         case types.DOWNLOAD_PRODUCTS_ERROR:
         case types.NEW_PRODUCT_ERROR:
         case types.PRODUCT_DELETE_ERROR:
@@ -54,10 +55,17 @@ export const productsReducer = (state = initialState, action)=>{
                 productDelete:null
             }
         case types.GET_PRODUCT_EDIT:
-            console.log(action);
             return {
                 ...state, 
                 productEdit:action.payload
+            }
+        case types.PRODUCT_EDIT_SUCESS:
+            return{
+                ...state, 
+                productEdit:null,
+                products: state.products.map(product => 
+                    product.id === action.payload.id ? product = action.payload : product
+                )
             }
         default: 
             return state;

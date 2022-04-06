@@ -1,26 +1,36 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux';
 import {editProductAction} from '../actions/productActions';
 import {useForm} from '../hooks/useForm';
+import {useNavigate} from 'react-router-dom';
 
 export const EditProduct = () => {
 
-    const product = useSelector(state => state.products.productEdit);
-    const [formProductValues, handleInputChange] = useForm({
+    let navigate = useNavigate();
+    const dispatch = useDispatch();
+    //Nuevo state de productos
+    const [product, handleInputChange, setValues] = useForm({
         name: '',
-        price: Number(0)
+        price: Number(0),
+        id:''
     });
 
-    if(!product) return null;
+    const producteditar = useSelector(state => state.products.productEdit);
+
+    useEffect(() => {
+        setValues(producteditar);
+    }, [producteditar])
+    
 
     
-    const {name,price, id}=product;
+    const {name,price}=product;
 
-    const { name, price } = formProductValues;
+    //const { name, price } = formProductValues;
 
     const submitEditProduct = (e) =>{
         e.preventDefault();
-        editProductAction();
+        dispatch(editProductAction(product));
+        navigate("/");
     }
 
   return (

@@ -31,25 +31,29 @@ export const Products = () => {
       {loading ? <div className="text-center">Loading....</div>:null}
       <div className="row justify-content-center">
         <div className="col-md-8">
-          <table className="table table-striped">
-            <thead  className="bg-primary table-dark">
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Price</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.length === 0 ? 'Doesn´t products ':(
-                products.map(product =>(
+          
+              {products.length === 0 ? (<p>No hay productos</p>)  :(
+                <table className="table table-striped">
+                <thead  className="bg-primary table-dark">
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {products.map(product =>(
                   <Product
                     key={product.id}
                     product={product}
                   />
-                ))
-              )}
-            </tbody>
-          </table>
+                ))}
+                  </tbody>
+                </table>
+              )
+              
+              }
+            
         </div>
       </div>
     </Fragment>

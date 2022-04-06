@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 //Actions de Redux
 import { createNewProductAction } from '../actions/productActions';
+import {showAlertAction,hiddenAlertAction} from '../actions/alertActions';
 
 export const NewProduct = () => {
     let navigate = useNavigate();
@@ -19,6 +20,7 @@ export const NewProduct = () => {
     //Acceder al state del store del
     const loading = useSelector(state => state.products.loading);
     const error = useSelector(state => state.products.error);
+    const alert = useSelector(state => state.alert.alert);
 
     const { name, price } = formProductValues;
 
@@ -30,9 +32,17 @@ export const NewProduct = () => {
 
         //validar formulario
         if(name.trim() === '' || price <= 0) {
+
+            const alert = {
+                msg: 'both fields are important',
+                classes: 'alert alert-danger text-center text-uppercase p3'
+            }
+
+            dispatch(showAlertAction(alert));
             return;
         }
-        //si no hay erroresp
+        //si no hay errores
+        dispatch(hiddenAlertAction());
 
         //crear el nuevo producto
         //Manda a llamar el accion del producto
@@ -50,6 +60,7 @@ export const NewProduct = () => {
                     <h2 className="text-center mb-4 font-weight-bold">
                         Add New Product
                     </h2>
+                    {alert ? <p className={alert.classes}>{alert.msg}</p>:null}
 
                     <form onSubmit={handleSubmitForm}>
 
